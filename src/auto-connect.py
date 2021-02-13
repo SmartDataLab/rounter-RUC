@@ -1,14 +1,12 @@
+#!/home/pi/miniconda3/bin/python
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 import json
 import time
-chrome_options = Options()
-#chrome_options.add_argument("--disable-extensions")
-#chrome_options.add_argument("--disable-gpu")
-#chrome_options.add_argument("--no-sandbox") # linux only
-chrome_options.add_argument("--headless")
+import sys
+import os
 
 def login(driver, config_path):
     driver.get('https://go.ruc.edu.cn/')
@@ -41,19 +39,29 @@ def login(driver, config_path):
         wait = WebDriverWait(driver, 10)
         print(driver.current_url)
         driver.close()
+
+logger=open(os.path.join(sys.path[0],"debug.log"), "a")
+print("wait-for-wifi-connection")
+time.sleep(20)
 # 使用 Chromium 的 WebDriver
+chrome_options = Options()
+#chrome_options.add_argument("--disable-extensions")
+#chrome_options.add_argument("--disable-gpu")
+#chrome_options.add_argument("--no-sandbox") # linux only
+chrome_options.add_argument("--headless")
 print("import ok")
+logger.write("import ok")
 driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', chrome_options=chrome_options)
 
 print("driver initial ok")
+logger.write("driver initial ok")
 # 開啟 Google 首頁
 
-config_path = "../config/login.json"
+config_path = os.path.join(sys.path[0], "../config/login.json")
 login(driver,config_path)
 while(True):
     time.sleep(3600)
     #wait = WebDriverWait(driver, 3600)
-    config_path = "../config/login.json"
     login(driver,config_path)
 
 driver.quit()

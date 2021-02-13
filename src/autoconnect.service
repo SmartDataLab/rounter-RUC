@@ -1,0 +1,13 @@
+[Unit]
+Description=Connect Open Wifi Service
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+Environment=/home/pi/miniconda3/bin
+ExecStart=/home/pi/miniconda3/bin/python /home/pi/dev/rounter-RUC/src/auto-connect.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
