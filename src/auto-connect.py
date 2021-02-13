@@ -13,7 +13,8 @@ def login(driver, config_path):
     wait = WebDriverWait(driver, 10)
     print("driver get ok")
     print(driver.current_url)
-    if "srun" not in driver.current_url:
+    print(driver.page_source)
+    if "success" not in driver.current_url:
         config = json.load(open(config_path))
         print("config load ok")
         print(driver.page_source)
